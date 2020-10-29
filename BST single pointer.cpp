@@ -13,6 +13,78 @@ void insertD(struct node** tree, int value);
 void inorder(struct node* root);
 
 
+
+
+
+void insertD2(struct node** root, int value)
+{
+
+
+
+
+	//root
+	// 50 , 40 ,30 , 60 , 45;
+
+	if (*root == NULL)
+	{
+		node* newNode = new node;
+		newNode->value = value;
+		newNode->left = NULL;
+		newNode->right = NULL;
+
+		*root = newNode;
+	}
+	else if ((*root)->value > value)
+	{
+
+		if ((*root)->left == NULL)
+		{
+			node* newNode = new node;
+			newNode->value = value;
+			newNode->left = NULL;
+			newNode->right = NULL;
+			(*root)->left = newNode;
+		}
+		else
+		{
+			insertD2(&(*root)->left, value);
+		}
+
+	}
+	else if ((*root)->value < value)
+	{
+		if ((*root)->right == NULL)
+		{
+			node* newNode = new node;
+			newNode->value = value;
+			newNode->left = NULL;
+			newNode->right = NULL;
+
+			(*root)->right = newNode;
+
+		}
+		else
+		{
+			insertD2(&(*root)->right, value);
+		}
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main()
 {
 
@@ -40,13 +112,15 @@ int main()
 		case 0:
 			cout << "enter element to enter " << endl;
 			cin >> y;
-			insert(root, y);
-			//insertD(&root, y);
+			//insert(root, y);
+			insertD(&root, y);
 			break;
 
 		case 1:
 			cout << "printed List" << endl;
 			inorder(root);
+			cout << endl << endl;
+
 			break;
 
 		case 6:
@@ -64,33 +138,54 @@ int main()
 void insertD(struct node** tree, int value)
 {
 
-	// 50 , 40 ,30 , 60 , 45;
+	
 
 	if (*tree == NULL)
 	{
 		node* newNode = new node;
 
 		newNode->value = value;
-		newNode->left = *tree;
+		newNode->left = NULL;
 		newNode->right = NULL;
 
 		*tree = newNode;
-
-		//*tree = new node{ value, new node{NULL,NULL,NULL},new node{NULL,NULL,NULL} };
-		//*tree->left 	
 	}
 
 
 	else if ((*tree)->value > value)
 	{
-		insert((*tree)->left, value);
+		(*tree)->left = &*(*tree);
+		insertD(&(*tree)->left, value);
 	}
 	else if ((*tree)->value < value)
 	{
-		insert((*tree)->right, value);
+		(*tree)->right = &**tree;
+		insertD(&(*tree)->right, value);
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void inorder(struct node* root)
 {
